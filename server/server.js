@@ -6,7 +6,7 @@ const cors = require('cors');
 
 app.use(express.json());
 
-// mongoose.connect(process.env.MONGO_URI, {
+// mongoose.connect(mongodb+srv://rajasekhar:vnrs@quickfix.kzsyopz.mongodb.net/, {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 // }).then(() => {
