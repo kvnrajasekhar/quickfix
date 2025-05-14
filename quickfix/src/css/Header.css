@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Atlas+Grotesk+Web:wght@400;500;600;700&display=swap');
+
+/* Apply to the Navbar */
+.navbar {
+  background: transparent !important; /* Ensures it's transparent */
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Atlas Grotesk Web', sans-serif;
+}
+
+/* Fix for the toggle icon */
+.navbar-toggler {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Offcanvas menu styling */
+.offcanvas {
+  background-color: rgba(252, 251, 251, 0.9); /* Makes it semi-transparent */
+}
+
+.offcanvas .offcanvas-header,
+.offcanvas .offcanvas-title {
+  color: rgb(0, 0, 0);
+}
+
+.offcanvas .nav-links {
+  color: black !important;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.offcanvas .nav-links:hover {
+  color: #f0ad4e !important; /* Highlights on hover */
+}
+
+.offcanvas .close {
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* Fix for mobile responsiveness */
+@media (max-width: 768px) {
+  .nav-links {
+    font-size: 0.9rem;
+  }
+}

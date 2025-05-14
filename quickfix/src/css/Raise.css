@@ -1,0 +1,29 @@
+.raise-btn {
+  background: rgb(223, 156, 12);
+  color: rgb(247, 246, 244);
+  transition: all 0.3s ease;
+  border: 1px solid rgb(223, 156, 12);
+}
+
+.raise-btn:hover {
+  background: linear-gradient(to right, #000428, #004e92);
+  color: rgb(247, 246, 244);
+  transform: scale(1.1);
+}
+
+
+
+.form-check-input:focus{
+  background-color: rgb(223, 156, 12);  
+  box-shadow: rgb(220, 194, 137) 0px 0px 0px 0.2rem;
+}
+
+.form-check-input:checked{
+  background-color: rgb(223, 156, 12);  
+  border-color: rgb(223, 156, 12);
+}
+
+#floatingPhoneNumber:focus,#floatingComplaint:focus,#floatingAddress:focus{
+  border: rgb(223, 156, 12);  
+  box-shadow: rgb(220, 194, 137) 0px 0px 0px 0.2rem;
+}
