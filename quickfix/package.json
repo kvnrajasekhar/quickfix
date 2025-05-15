@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.5.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.510.0",

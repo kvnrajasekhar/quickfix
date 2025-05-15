@@ -1,30 +1,34 @@
 const express = require('express');
 const app = express();
-const port = 3001; 
+const port = 3001;
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+    require('dotenv').config();
+
 app.use(express.json());
 
-// mongoose.connect(process.env.MONGO_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// }).then(() => {
-//     console.log('MongoDB connected');
-// }).catch(err => {
-//     console.error('MongoDB connection error:', err);
-// });
+
+const url = process.env.MONGO_URL;
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('MongoDB connected');
+}).catch(err => {
+    console.error('MongoDB connection error:', err);
+});
 
 app.use(cors({
-    origin: '*', 
-    methods: ['GET', 'POST'], 
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     // allowedHeaders: ['Content-Type'], // Allow only specific headers
 }));
 
 const Complaint = require('./modal/Complaint');
 
-app.post('/complaint', async (req,res) => {
-    try{
+app.post('/complaint', async (req, res) => {
+    try {
         const complaintData = {
             phoneNumber: req.body.phoneNumber,
             complaint: req.body.complaint,
@@ -35,29 +39,12 @@ app.post('/complaint', async (req,res) => {
         const savedComplaint = await newComplaint.save();
 
         res.status(201).json(savedComplaint);
-    } catch(error) {
+    } catch (error) {
         console.error('Error saving complaint:', error);
         res.status(500).json({ message: 'Failed to save complaint' });
     }
-})
-
-let comp = {};
-app.post('/newcomplaint', async (req, res) => {
-    try {
-        const { phoneNumber, complaint, address, emergency } = req.body;
-        comp = { phoneNumber, complaint, address, emergency };
-        console.log(comp);
-        res.status(200).json({ message: 'Complaint received successfully' });
-    } catch (error) {
-        console.error('Error processing complaint:', error);
-        res.status(500).json({ message: 'Failed to process complaint' });
-    }
-})
-
-
-app.get('/newcomplaint', (req, res) => {
-    res.status(200).json(comp);
 });
+
 
 app.get('/complaints', async (req, res) => {
     try {
@@ -69,15 +56,46 @@ app.get('/complaints', async (req, res) => {
     }
 });
 
+
+
+
+async function updateComplaintStatus(req, res) {
+    try {
+        const complaintId = req.params.id;
+        const newStatus = req.body.status;
+
+        const updatedComplaint = await Complaint.findByIdAndUpdate(
+            complaintId,
+            { status: newStatus, updatedAt: Date.now() }, // Also update updatedAt
+            { new: true } // Return the modified document
+        );
+
+        if (!updatedComplaint) {
+            return res.status(404).json({ message: 'Complaint not found' });
+        }
+
+        res.status(200).json(updatedComplaint);
+    } catch (error) {
+        console.error('Error updating complaint status:', error);
+        res.status(500).json({ message: 'Failed to update complaint status' });
+    }
+}
+
+app.patch('/complaints/:id', updateComplaintStatus);
+
 let userName = "";
 app.post('/', (req, res) => {
-    userName = req.body.name; 
+    userName = req.body.name;
     console.log(userName);
     res.send(`Welcome ${userName}`);
 });
 
 app.get('/', (req, res) => {
     res.send(`${userName}`);
+});
+
+app.get('/hi', (req, res) => {
+    res.send("Hello World");
 });
 
 app.listen(port, () => {

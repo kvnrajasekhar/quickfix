@@ -21,13 +21,16 @@ const ComplaintsTable = () => {
             try {
                 // Simulate API call delay
                 // await new Promise(resolve => setTimeout(resolve, 1000));
+                // const api = process.env.SERVER;  <--  process.env is for Node.js, not directly in React
+                // axios.get(`${api}/complaints`)
 
-                axios.get('http://localhost:3001/newcomplaint')
-                    .then((response) => {
-                        setComplaints(response.data);
-                        setLoading(false);
-                        console.log(response.data);
-                    }); 
+                //Moved the api key to a separate file.
+                const api = "http://localhost:3001"; // Or wherever your server is running
+                const response = await axios.get(`${api}/complaints`);
+                setComplaints(response.data);
+                setLoading(false);
+                console.log(response.data);
+
 
                 // Mock API response (replace with your actual API endpoint)
                 // const mockResponse = [
@@ -78,8 +81,8 @@ const ComplaintsTable = () => {
                 //     }
                 // ];
 
-                // setComplaints(mockResponse);
-                // setLoading(false);
+                //  setComplaints(mockResponse);
+                //  setLoading(false);
             } catch (err) {
                 setError(err.message || 'Failed to fetch complaints.');
                 setLoading(false);
@@ -93,7 +96,10 @@ const ComplaintsTable = () => {
     const handleStatusChange = async (id, newStatus) => {
         try {
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 500));
+            // await new Promise(resolve => setTimeout(resolve, 500));
+            const api = "http://localhost:3001"; // Or wherever your server is running
+            await axios.patch(`${api}/complaints/${id}`, { status: newStatus });
+
 
             // Update status in the local state
             setComplaints(prevComplaints =>
@@ -222,8 +228,7 @@ const ComplaintsTable = () => {
                                         </div>
                                     </div>
                                 </motion.div>
-                            ))
-                            }
+                            ))}
                         </div>
                     )}
                 </AnimatePresence>
