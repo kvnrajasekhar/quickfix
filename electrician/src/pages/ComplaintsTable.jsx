@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle } from "lucide-react";
+import axios from 'axios';
 
 // Animation variants
 const cardVariants = {
@@ -19,59 +20,66 @@ const ComplaintsTable = () => {
         const fetchComplaints = async () => {
             try {
                 // Simulate API call delay
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // await new Promise(resolve => setTimeout(resolve, 1000));
+
+                axios.get('http://localhost:3001/newcomplaint')
+                    .then((response) => {
+                        setComplaints(response.data);
+                        setLoading(false);
+                        console.log(response.data);
+                    }); 
 
                 // Mock API response (replace with your actual API endpoint)
-                const mockResponse = [
-                    {
-                        _id: '1',
-                        phoneNumber: '9876543210',
-                        complaint: 'Power outage in Sector 5.',
-                        address: 'House No. 123, Sector 5, Guntur',
-                        emergency: true,
-                        status: 'Pending',
-                        createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-                    },
-                    {
-                        _id: '2',
-                        phoneNumber: '8765432109',
-                        complaint: 'Faulty wiring in my home.',
-                        address: 'Apartment 4B, ABC Apartments, Guntur',
-                        emergency: false,
-                        status: 'In Progress',
-                        createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-                    },
-                    {
-                        _id: '3',
-                        phoneNumber: '9988776655',
-                        complaint: 'Street light not working.',
-                        address: 'Near XYZ School, Guntur',
-                        emergency: true,
-                        status: 'Resolved',
-                        createdAt: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
-                    },
-                    {
-                        _id: '4',
-                        phoneNumber: '7788996655',
-                        complaint: 'Meter is sparking',
-                        address: 'PQR Colony, Guntur',
-                        emergency: true,
-                        status: 'Pending',
-                        createdAt: new Date().toISOString(),
-                    },
-                    {
-                        _id: '5',
-                        phoneNumber: '6677889900',
-                        complaint: 'Need a new connection',
-                        address: 'New Layout, Guntur',
-                        emergency: false,
-                        status: 'Cancelled',
-                        createdAt: new Date().toISOString()
-                    }
-                ];
+                // const mockResponse = [
+                //     {
+                //         _id: '1',
+                //         phoneNumber: '9876543210',
+                //         complaint: 'Power outage in Sector 5.',
+                //         address: 'House No. 123, Sector 5, Guntur',
+                //         emergency: true,
+                //         status: 'Pending',
+                //         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+                //     },
+                //     {
+                //         _id: '2',
+                //         phoneNumber: '8765432109',
+                //         complaint: 'Faulty wiring in my home.',
+                //         address: 'Apartment 4B, ABC Apartments, Guntur',
+                //         emergency: false,
+                //         status: 'In Progress',
+                //         createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+                //     },
+                //     {
+                //         _id: '3',
+                //         phoneNumber: '9988776655',
+                //         complaint: 'Street light not working.',
+                //         address: 'Near XYZ School, Guntur',
+                //         emergency: true,
+                //         status: 'Resolved',
+                //         createdAt: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
+                //     },
+                //     {
+                //         _id: '4',
+                //         phoneNumber: '7788996655',
+                //         complaint: 'Meter is sparking',
+                //         address: 'PQR Colony, Guntur',
+                //         emergency: true,
+                //         status: 'Pending',
+                //         createdAt: new Date().toISOString(),
+                //     },
+                //     {
+                //         _id: '5',
+                //         phoneNumber: '6677889900',
+                //         complaint: 'Need a new connection',
+                //         address: 'New Layout, Guntur',
+                //         emergency: false,
+                //         status: 'Cancelled',
+                //         createdAt: new Date().toISOString()
+                //     }
+                // ];
 
-                setComplaints(mockResponse);
-                setLoading(false);
+                // setComplaints(mockResponse);
+                // setLoading(false);
             } catch (err) {
                 setError(err.message || 'Failed to fetch complaints.');
                 setLoading(false);
@@ -179,7 +187,6 @@ const ComplaintsTable = () => {
                                             <p className="text-gray-700">
                                                 Phone Number: {complaint.phoneNumber}
                                             </p>
-
                                         </div>
                                         <div className="p-4">
                                             <p className="text-gray-700 mb-2">
@@ -205,7 +212,6 @@ const ComplaintsTable = () => {
                                                     value={complaint.status}
                                                     onChange={(e) => handleStatusChange(complaint._id, e.target.value)}
                                                     className="w-48 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-
                                                 >
                                                     <option value="Pending">Pending</option>
                                                     <option value="In Progress">In Progress</option>

@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 3000; 
+const port = 3001; 
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 app.use(express.json());
 
-// mongoose.connect(mongodb+srv://rajasekhar:vnrs@quickfix.kzsyopz.mongodb.net/, {
+// mongoose.connect(process.env.MONGO_URL, {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 // }).then(() => {
@@ -40,6 +40,24 @@ app.post('/complaint', async (req,res) => {
         res.status(500).json({ message: 'Failed to save complaint' });
     }
 })
+
+let comp = {};
+app.post('/newcomplaint', async (req, res) => {
+    try {
+        const { phoneNumber, complaint, address, emergency } = req.body;
+        comp = { phoneNumber, complaint, address, emergency };
+        console.log(comp);
+        res.status(200).json({ message: 'Complaint received successfully' });
+    } catch (error) {
+        console.error('Error processing complaint:', error);
+        res.status(500).json({ message: 'Failed to process complaint' });
+    }
+})
+
+
+app.get('/newcomplaint', (req, res) => {
+    res.status(200).json(comp);
+});
 
 app.get('/complaints', async (req, res) => {
     try {
