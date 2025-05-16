@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle } from "lucide-react";
 import axios from 'axios';
 
-// Animation variants
 const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
@@ -14,75 +13,16 @@ const ComplaintsTable = () => {
     const [complaints, setComplaints] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedDate, setSelectedDate] = useState('');
 
-    // Fetch complaints (replace with your actual API call)
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                // Simulate API call delay
-                // await new Promise(resolve => setTimeout(resolve, 1000));
-                // const api = process.env.SERVER;  <--  process.env is for Node.js, not directly in React
-                // axios.get(`${api}/complaints`)
-
-                //Moved the api key to a separate file.
-                const api = "http://localhost:3001"; // Or wherever your server is running
+                const api = "http://localhost:3001";
                 const response = await axios.get(`${api}/complaints`);
                 setComplaints(response.data);
                 setLoading(false);
                 console.log(response.data);
-
-
-                // Mock API response (replace with your actual API endpoint)
-                // const mockResponse = [
-                //     {
-                //         _id: '1',
-                //         phoneNumber: '9876543210',
-                //         complaint: 'Power outage in Sector 5.',
-                //         address: 'House No. 123, Sector 5, Guntur',
-                //         emergency: true,
-                //         status: 'Pending',
-                //         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-                //     },
-                //     {
-                //         _id: '2',
-                //         phoneNumber: '8765432109',
-                //         complaint: 'Faulty wiring in my home.',
-                //         address: 'Apartment 4B, ABC Apartments, Guntur',
-                //         emergency: false,
-                //         status: 'In Progress',
-                //         createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-                //     },
-                //     {
-                //         _id: '3',
-                //         phoneNumber: '9988776655',
-                //         complaint: 'Street light not working.',
-                //         address: 'Near XYZ School, Guntur',
-                //         emergency: true,
-                //         status: 'Resolved',
-                //         createdAt: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
-                //     },
-                //     {
-                //         _id: '4',
-                //         phoneNumber: '7788996655',
-                //         complaint: 'Meter is sparking',
-                //         address: 'PQR Colony, Guntur',
-                //         emergency: true,
-                //         status: 'Pending',
-                //         createdAt: new Date().toISOString(),
-                //     },
-                //     {
-                //         _id: '5',
-                //         phoneNumber: '6677889900',
-                //         complaint: 'Need a new connection',
-                //         address: 'New Layout, Guntur',
-                //         emergency: false,
-                //         status: 'Cancelled',
-                //         createdAt: new Date().toISOString()
-                //     }
-                // ];
-
-                //  setComplaints(mockResponse);
-                //  setLoading(false);
             } catch (err) {
                 setError(err.message || 'Failed to fetch complaints.');
                 setLoading(false);
@@ -92,40 +32,47 @@ const ComplaintsTable = () => {
         fetchComplaints();
     }, []);
 
-    // Function to update complaint status (replace with your actual API call)
     const handleStatusChange = async (id, newStatus) => {
         try {
-            // Simulate API call
-            // await new Promise(resolve => setTimeout(resolve, 500));
-            const api = "http://localhost:3001"; // Or wherever your server is running
+            const api = "http://localhost:3001";
             await axios.patch(`${api}/complaints/${id}`, { status: newStatus });
 
-
-            // Update status in the local state
             setComplaints(prevComplaints =>
                 prevComplaints.map(complaint =>
                     complaint._id === id ? { ...complaint, status: newStatus } : complaint
                 )
             );
-
-            // In a real application, you would send a request to your backend API here
             console.log(`Complaint ${id} status updated to ${newStatus}`);
         } catch (err) {
             setError('Failed to update status.');
         }
     };
 
-    // Helper function to format date
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
+        return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     };
+
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
+    const filteredComplaints = complaints.filter(complaint => {
+        if (!selectedDate) {
+            return true;
+        }
+        const complaintDate = new Date(complaint.createdAt).toISOString().split('T')[0];
+        return complaintDate === selectedDate;
+    }).sort((a, b) => {
+        // Move resolved complaints to the bottom
+        if (a.status === 'Resolved' && b.status !== 'Resolved') {
+            return 1;
+        }
+        if (a.status !== 'Resolved' && b.status === 'Resolved') {
+            return -1;
+        }
+        return 0; // Maintain original order for other statuses
+    });
 
     if (loading) {
         return (
@@ -149,12 +96,24 @@ const ComplaintsTable = () => {
 
     return (
         <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-5xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
                     Complaints Dashboard
                 </h1>
+
+                <div className="mb-4 flex justify-end">
+                    <label htmlFor="dateFilter" className="mr-2 text-gray-700">Filter by Date:</label>
+                    <input
+                        type="date"
+                        id="dateFilter"
+                        className="border border-gray-300 rounded-md py-2 px-3"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                    />
+                </div>
+
                 <AnimatePresence>
-                    {complaints.length === 0 ? (
+                    {filteredComplaints.length === 0 ? (
                         <motion.div
                             variants={cardVariants}
                             initial="hidden"
@@ -162,27 +121,24 @@ const ComplaintsTable = () => {
                             exit="exit"
                             className="text-center text-gray-500 py-8"
                         >
-                            No complaints found.
+                            No complaints found for the selected criteria.
                         </motion.div>
                     ) : (
                         <div className="space-y-4">
-                            {complaints.map((complaint) => (
+                            {filteredComplaints.map((complaint) => (
                                 <motion.div
                                     key={complaint._id}
                                     variants={cardVariants}
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"
-                                    className=""
                                 >
-                                    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                                        <div className="p-4 border-b">
+                                    <div className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${complaint.status === 'Resolved' ? 'bg-green-100' : 'bg-white'}`}>
+                                        <div className="px-6 py-4 border-b border-gray-200">
                                             <div className="flex justify-between items-start gap-4">
                                                 <div>
                                                     <div className="text-lg font-semibold text-gray-900">Complaint ID: {complaint._id}</div>
-                                                    <span className={
-                                                        `ml-2 text-xs font-medium px-2 py-1 rounded ${complaint.emergency ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`
-                                                    }>
+                                                    <span className={`ml-2 text-xs font-medium px-2 py-1 rounded ${complaint.emergency ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                         {complaint.emergency ? 'Emergency' : 'Normal'}
                                                     </span>
                                                 </div>
@@ -190,12 +146,12 @@ const ComplaintsTable = () => {
                                                     {formatDate(complaint.createdAt)}
                                                 </span>
                                             </div>
-                                            <p className="text-gray-700">
-                                                Phone Number: {complaint.phoneNumber}
+                                            <p className="text-gray-700 mt-2">
+                                                Phone Number: <span className="font-medium text-gray-900">{complaint.phoneNumber}</span>
                                             </p>
                                         </div>
-                                        <div className="p-4">
-                                            <p className="text-gray-700 mb-2">
+                                        <div className="p-6">
+                                            <p className="text-gray-700 mb-3">
                                                 <strong className="font-medium">Complaint:</strong> {complaint.complaint}
                                             </p>
                                             <p className="text-gray-700 mb-4">
@@ -204,12 +160,11 @@ const ComplaintsTable = () => {
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <span className="text-sm font-medium text-gray-700">Status: </span>
-                                                    <span className={
-                                                        `font-medium px-2 py-1 rounded
-                                                        ${complaint.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                                                            complaint.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                                                                complaint.status === 'Resolved' ? 'bg-green-100 text-green-800' :
-                                                                    'bg-gray-100 text-gray-800'}`
+                                                    <span className={`font-medium px-2 py-1 rounded text-white
+                                                        ${complaint.status === 'Pending' ? 'bg-yellow-500' :
+                                                            complaint.status === 'In Progress' ? 'bg-blue-500' :
+                                                                complaint.status === 'Resolved' ? 'bg-green-500' :
+                                                                    'bg-gray-400'}`
                                                     }>
                                                         {complaint.status}
                                                     </span>
