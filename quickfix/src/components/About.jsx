@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Typography, styled } from "@mui/material";
-import RaiseService from "./RaiseService"; // Import the button component
+import RaiseService from "./RaiseService";
 import { motion } from 'framer-motion';
-import axios from "axios";
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -29,16 +28,6 @@ const FullHeightContainer = styled(motion.div)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
 }));
 
-// Function to send a POST request to the server
-let name ;
-async function getRequest() {
-    try {
-        const response = await axios.get('http://localhost:3000/');
-        console.log(response.data);
-    } catch (error) {
-        console.error('Error sending POST request:', error);
-    }
-}
 
 function About() {
 

@@ -18,7 +18,7 @@ const ComplaintsTable = () => {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const api = "http://localhost:3001";
+                const api = "https://quickfix-server.vercel.app";
                 const response = await axios.get(`${api}/complaints`);
                 setComplaints(response.data);
                 setLoading(false);
@@ -29,12 +29,15 @@ const ComplaintsTable = () => {
             }
         };
 
+        // Set initial date to today's date
+        const today = new Date().toISOString().split('T')[0];
+        setSelectedDate(today);
         fetchComplaints();
     }, []);
 
     const handleStatusChange = async (id, newStatus) => {
         try {
-            const api = "http://localhost:3001";
+            const api = "https://quickfix-server.vercel.app";
             await axios.patch(`${api}/complaints/${id}`, { status: newStatus });
 
             setComplaints(prevComplaints =>
@@ -53,8 +56,9 @@ const ComplaintsTable = () => {
         return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     };
 
-    const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
+        const handleDateChange = (event) => {
+        const selectedDate = event.target.value;
+        setSelectedDate(selectedDate);
     };
 
     const filteredComplaints = complaints.filter(complaint => {
@@ -164,8 +168,7 @@ const ComplaintsTable = () => {
                                                         ${complaint.status === 'Pending' ? 'bg-yellow-500' :
                                                             complaint.status === 'In Progress' ? 'bg-blue-500' :
                                                                 complaint.status === 'Resolved' ? 'bg-green-500' :
-                                                                    'bg-gray-400'}`
-                                                    }>
+                                                                    'bg-gray-400'}`}>
                                                         {complaint.status}
                                                     </span>
                                                 </div>
@@ -193,3 +196,4 @@ const ComplaintsTable = () => {
 };
 
 export default ComplaintsTable;
+

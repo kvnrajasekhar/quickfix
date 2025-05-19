@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Phone, MapPin, ClipboardList, CheckCircle } from 'lucide-react';
 import { useLocation } from "react-router-dom";
-
+import axios from "axios";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -92,13 +92,31 @@ function Raise() {
     const handleSubmitForm = (values, { resetForm }) => {
         console.log(values);
         setSubmissionMessage("Complaint submitted successfully!");
+
+        const api = "https://quickfix-server.vercel.app";  // Use the environment variable
+        console.log(api);
+        const complaintData = {
+            phoneNumber: values.phoneNumber,
+            complaint: values.complaint,
+            address: values.address,
+            emergency: values.emergency,
+        };
+        axios.post(`${api}/complaint`, complaintData)
+            .then((response) => {
+                console.log("Complaint submitted successfully:", response.data);
+                setSubmissionMessage("Complaint submitted successfully!");
+            })
+            .catch((error) => {
+                console.error("Error submitting complaint:", error);
+                setSubmissionMessage("Failed to submit complaint.");
+            });
         resetForm();
     };
 
     return (
         <div className="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md">
-                <div className="bg-white rounded-xl shadow-lg p-8 space-y-6"> {/* Card styling */}
+                <div className="bg-white rounded-xl shadow-lg p-8 space-y-6">
                     <div>
                         <h2 className="text-center text-3xl font-extrabold text-gray-900">
                             Raise a Complaint
@@ -139,7 +157,7 @@ function Raise() {
                                         type="tel"
                                         placeholder="Enter your phone number"
                                     />
-                                    <FormTextareaField 
+                                    <FormTextareaField
                                         label="Complaint"
                                         name="complaint"
                                         placeholder="Describe your complaint"
