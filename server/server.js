@@ -118,6 +118,6 @@ process.on('unhandledRejection', (reason, promise) => {
     // You might want to take additional actions here, like logging to a file or restarting the server
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Server is running at http://localhost:${port}`);
+// });
