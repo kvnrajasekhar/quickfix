@@ -32,7 +32,7 @@ const FormInputField = ({ label, name, placeholder, type = "text", ...props }) =
                 id={name}
                 name={name}
                 placeholder={placeholder}
-                className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md ${type === 'tel' ? 'pl-10' : 'pl-3'} py-2.5`} // Increased padding
+                className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md py-2.5 ${type === 'tel' ? 'pl-10' : 'pl-3'}`} // Increased padding
                 {...props}
             />
         </div>
@@ -84,33 +84,79 @@ const FormSelectField = ({ label, name, options, ...props }) => (
     </div>
 );
 
+// Status Card Component
+const StatusCard = ({ complaint }) => {
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'pending': return 'text-yellow-500 bg-yellow-100 border-yellow-400';
+            case 'in progress': return 'text-blue-500 bg-blue-100 border-blue-400';
+            case 'resolved': return 'text-green-500 bg-green-100 border-green-400';
+            case 'cancelled': return 'text-gray-500 bg-gray-100 border-gray-400';
+            default: return 'text-gray-700 bg-gray-100 border-gray-400';
+        }
+    };
+
+    const statusColor = getStatusColor(complaint.status);
+
+    return (
+        <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
+            <h2 className="text-2xl font-semibold text-gray-900">Complaint Status</h2>
+            <div className="border rounded-md p-4">
+                <p className="text-gray-700">
+                    <span className="font-semibold">Complaint ID:</span> {complaint._id}
+                </p>
+                <p className="text-gray-700">
+                    <span className="font-semibold">Phone Number:</span> {complaint.phoneNumber}
+                </p>
+                <p className="text-gray-700">
+                    <span className="font-semibold">Address:</span> {complaint.address}
+                </p>
+                <p className="text-gray-700">
+                    <span className="font-semibold">Complaint:</span> {complaint.complaint || "N/A"}
+                </p>
+                <p className="text-gray-700">
+                    <span className="font-semibold">Emergency:</span> {complaint.emergency ? 'Yes' : 'No'}
+                </p>
+                <p className={`${"font-semibold px-2 py-1 rounded-full inline-block"} ${statusColor}`}>
+                    Status: {complaint.status}
+                </p>
+                <p className="text-gray-700">
+                    <span className="font-semibold">Created At:</span> {new Date(complaint.createdAt).toLocaleString()}
+                </p>
+
+            </div>
+        </div>
+    );
+};
+
 function Raise() {
     const [submissionMessage, setSubmissionMessage] = useState("");
+    const [complaintDetails, setComplaintDetails] = useState(null);
     const location = useLocation();
     const initialPhoneNumber = location.state?.phoneNumber || "";
 
     const handleSubmitForm = (values, { resetForm }) => {
-        console.log(values);
-        setSubmissionMessage("Complaint submitted successfully!");
-
-        const api = "https://quickfix-server.vercel.app";  // Use the environment variable
-        console.log(api);
+        const api = "https://quickfix-server.vercel.app";
         const complaintData = {
             phoneNumber: values.phoneNumber,
             complaint: values.complaint,
             address: values.address,
             emergency: values.emergency,
         };
+
         axios.post(`${api}/complaint`, complaintData)
             .then((response) => {
                 console.log("Complaint submitted successfully:", response.data);
                 setSubmissionMessage("Complaint submitted successfully!");
+                setComplaintDetails(response.data);
+                resetForm();
+
             })
             .catch((error) => {
                 console.error("Error submitting complaint:", error);
                 setSubmissionMessage("Failed to submit complaint.");
+                setComplaintDetails(null);
             });
-        resetForm();
     };
 
     return (
@@ -125,20 +171,7 @@ function Raise() {
                             Please provide details of your electrical issue.
                         </p>
                     </div>
-                    {submissionMessage ? (
-                        <div className="rounded-md bg-green-50 px-4 py-3 text-green-800 sm:px-6 lg:px-8">
-                            <div className="flex items-center">
-                                <div className="flex-shrink-0">
-                                    <CheckCircle className="h-5 w-5 text-green-400" aria-hidden="true" />
-                                </div>
-                                <div className="ml-3">
-                                    <p className="text-sm font-medium">
-                                        {submissionMessage}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
+                    {!submissionMessage ? (
                         <Formik
                             initialValues={{
                                 phoneNumber: initialPhoneNumber,
@@ -197,6 +230,10 @@ function Raise() {
                                 </div>
                             </Form>
                         </Formik>
+                    ) : (
+                        <div className="mt-8">
+                            <StatusCard complaint={complaintDetails} />
+                        </div>
                     )}
                 </div>
             </div>

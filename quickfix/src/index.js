@@ -1,3 +1,4 @@
+// index.js
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -6,24 +7,31 @@ import reportWebVitals from "./reportWebVitals";
 import Header from "./components/Header";
 import Raise from "./components/Raise";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import App from "./App";
 import Footer from "./components/Footer";
 import IntitalRaise from "./components/InitailRaise";
+import App from "./App";
+import Aboutus from "./components/Aboutus";
+import Contact from "./components/Contact";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <Router>
-      <Header />
-      <Routes>
-      <Route path="/" element={<App to="/home" />}>
-        <Route path="/home" element={<App />} />
-      </Route>
-        <Route path="/complaint" element={<Raise />} />
-        <Route path="/raise" element={<IntitalRaise />} />
-      </Routes>
-      <Footer />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/home" element={<App />} />
+            <Route path="/complaint" element={<Raise />} />
+            <Route path="/raise" element={<IntitalRaise />} />
+            <Route path="/about" element={<Aboutus />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   </React.StrictMode>
 );

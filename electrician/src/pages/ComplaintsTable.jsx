@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Phone } from "lucide-react";
 import axios from 'axios';
 
 const cardVariants = {
@@ -56,7 +56,7 @@ const ComplaintsTable = () => {
         return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     };
 
-        const handleDateChange = (event) => {
+    const handleDateChange = (event) => {
         const selectedDate = event.target.value;
         setSelectedDate(selectedDate);
     };
@@ -100,6 +100,9 @@ const ComplaintsTable = () => {
 
     return (
         <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+            <h1 className="text-xl  text-gray-900 text-start">
+                Quickfix
+            </h1>
             <div className="max-w-5xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
                     Complaints Dashboard
@@ -125,7 +128,7 @@ const ComplaintsTable = () => {
                             exit="exit"
                             className="text-center text-gray-500 py-8"
                         >
-                            No complaints found for the selected criteria.
+                            No complaints found for the selected date.
                         </motion.div>
                     ) : (
                         <div className="space-y-4">
@@ -137,7 +140,8 @@ const ComplaintsTable = () => {
                                     animate="visible"
                                     exit="exit"
                                 >
-                                    <div className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${complaint.status === 'Resolved' ? 'bg-green-100' : 'bg-white'}`}>
+                                    <div
+                                        className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${complaint.status === 'Resolved' ? 'bg-green-100' : complaint.status === 'Cancelled' ? 'bg-red-100' : complaint.status === 'In Progress' ? 'bg-blue-100' : 'bg-white'}`}>
                                         <div className="px-6 py-4 border-b border-gray-200">
                                             <div className="flex justify-between items-start gap-4">
                                                 <div>
@@ -150,9 +154,6 @@ const ComplaintsTable = () => {
                                                     {formatDate(complaint.createdAt)}
                                                 </span>
                                             </div>
-                                            <p className="text-gray-700 mt-2">
-                                                Phone Number: <span className="font-medium text-gray-900">{complaint.phoneNumber}</span>
-                                            </p>
                                         </div>
                                         <div className="p-6">
                                             <p className="text-gray-700 mb-3">
@@ -160,6 +161,9 @@ const ComplaintsTable = () => {
                                             </p>
                                             <p className="text-gray-700 mb-4">
                                                 <strong className="font-medium">Address:</strong> {complaint.address}
+                                            </p>
+                                            <p className="text-gray-700 mt-2">
+                                                Phone Number: <span className="font-medium text-gray-900">{complaint.phoneNumber}</span>
                                             </p>
                                             <div className="flex items-center justify-between">
                                                 <div>
@@ -172,16 +176,13 @@ const ComplaintsTable = () => {
                                                         {complaint.status}
                                                     </span>
                                                 </div>
-                                                <select
-                                                    value={complaint.status}
-                                                    onChange={(e) => handleStatusChange(complaint._id, e.target.value)}
-                                                    className="w-48 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                                >
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="In Progress">In Progress</option>
-                                                    <option value="Resolved">Resolved</option>
-                                                    <option value="Cancelled">Cancelled</option>
-                                                </select>
+                                                <a href={`tel:${complaint.phoneNumber}`}>
+                                                    <button className="bg-[#020197] hover:bg-green-500 text-white font-bold py-1 px-2 rounded flex items-center gap-1 text-sm">
+                                                        <Phone className="h-4 w-4" />
+                                                        Call
+                                                    </button>
+                                                </a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -196,4 +197,3 @@ const ComplaintsTable = () => {
 };
 
 export default ComplaintsTable;
-

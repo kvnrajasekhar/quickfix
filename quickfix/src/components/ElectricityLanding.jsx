@@ -4,7 +4,7 @@ import bg from "../assets/bg.jpg";
 import man from "../assets/main-file.png";
 import clouds1 from "../assets/clouds_1.png";
 import clouds2 from "../assets/clouds_2.png";
-import mountainLeftImg from "../assets/mountain_left.png"; // Changed variable name
+import mountainLeftImg from "../assets/mountain_left.png"; 
 import mountainRight from "../assets/mountain_right.png";
 import Header from "./Header";
 
@@ -12,12 +12,12 @@ const ElectricityLanding = () => {
     useEffect(() => {
         const handleScroll = () => {
             const value = window.scrollY;
-            const mountainLeftElement = document.getElementById("mountain_left"); // Added variable
-            const clouds2Element = document.getElementById("clouds_2");       // Added variable
-            const mountainRightElement = document.getElementById("mountain_right"); // Added variable
-            const clouds1Element = document.getElementById("clouds_1");       // Added variable
-            const textElement = document.getElementById("text");           // Added variable
-            const manElement = document.getElementById("man");             // Added variable
+            const mountainLeftElement = document.getElementById("mountain_left"); 
+            const clouds2Element = document.getElementById("clouds_2");      
+            const mountainRightElement = document.getElementById("mountain_right"); 
+            const clouds1Element = document.getElementById("clouds_1");      
+            const textElement = document.getElementById("text");          
+            const manElement = document.getElementById("man");             
 
             if (mountainLeftElement) {
                 mountainLeftElement.style.left = `-${value / 0.7}px`;

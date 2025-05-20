@@ -51,6 +51,12 @@ function Header() {
               <Nav.Link className="mx-3 nav-links text-white" href="/raise">
                 Raise
               </Nav.Link>
+              <Nav.Link className="mx-3 nav-links text-white" href="/about">
+                About Us
+              </Nav.Link>
+              <Nav.Link className="mx-3 nav-links text-white" href="/contact">
+                Contact Us 
+              </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
