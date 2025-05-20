@@ -53,7 +53,13 @@ const ComplaintsTable = () => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        return date.toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
     const handleDateChange = (event) => {
@@ -100,7 +106,7 @@ const ComplaintsTable = () => {
 
     return (
         <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
-            <h1 className="text-xl  text-gray-900 text-start">
+            <h1 className="text-xl text-gray-900 text-start">
                 Quickfix
             </h1>
             <div className="max-w-5xl mx-auto">
@@ -108,12 +114,12 @@ const ComplaintsTable = () => {
                     Complaints Dashboard
                 </h1>
 
-                <div className="mb-4 flex justify-end">
-                    <label htmlFor="dateFilter" className="mr-2 text-gray-700">Filter by Date:</label>
+                <div className="mb-4 flex flex-col sm:flex-row justify-end gap-4">
+                    <label htmlFor="dateFilter" className="mr-2 text-gray-700 self-center">Filter by Date:</label>
                     <input
                         type="date"
                         id="dateFilter"
-                        className="border border-gray-300 rounded-md py-2 px-3"
+                        className="border border-gray-300 rounded-md py-2 px-3 max-w-sm"
                         value={selectedDate}
                         onChange={handleDateChange}
                     />
@@ -140,49 +146,58 @@ const ComplaintsTable = () => {
                                     animate="visible"
                                     exit="exit"
                                 >
-                                    <div
-                                        className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${complaint.status === 'Resolved' ? 'bg-green-100' : complaint.status === 'Cancelled' ? 'bg-red-100' : complaint.status === 'In Progress' ? 'bg-blue-100' : 'bg-white'}`}>
+                                    <div className={`rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${complaint.status === 'Resolved' ? 'bg-green-100' : complaint.status === 'Cancelled' ? 'bg-red-100' : complaint.status === 'In Progress' ? 'bg-blue-100' : 'bg-white'}`}>
                                         <div className="px-6 py-4 border-b border-gray-200">
-                                            <div className="flex justify-between items-start gap-4">
-                                                <div>
-                                                    <div className="text-lg font-semibold text-gray-900">Complaint ID: {complaint._id}</div>
-                                                    <span className={`ml-2 text-xs font-medium px-2 py-1 rounded ${complaint.emergency ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                                                        {complaint.emergency ? 'Emergency' : 'Normal'}
-                                                    </span>
-                                                </div>
-                                                <span className="text-sm text-gray-500">
-                                                    {formatDate(complaint.createdAt)}
+                                            <div className="flex flex-col">
+                                                <div className="text-lg font-semibold text-gray-900">Complaint ID: {complaint._id}</div>
+                                                <span className={`ml-2 text-xs font-medium px-2 py-1 rounded ${complaint.emergency ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                    {complaint.emergency ? 'Emergency' : 'Normal'}
                                                 </span>
-                                            </div>
-                                        </div>
-                                        <div className="p-6">
-                                            <p className="text-gray-700 mb-3">
-                                                <strong className="font-medium">Complaint:</strong> {complaint.complaint}
-                                            </p>
-                                            <p className="text-gray-700 mb-4">
-                                                <strong className="font-medium">Address:</strong> {complaint.address}
-                                            </p>
-                                            <p className="text-gray-700 mt-2">
-                                                Phone Number: <span className="font-medium text-gray-900">{complaint.phoneNumber}</span>
-                                            </p>
-                                            <div className="flex items-center justify-between">
-                                                <div>
-                                                    <span className="text-sm font-medium text-gray-700">Status: </span>
-                                                    <span className={`font-medium px-2 py-1 rounded text-white
+                                                <p className="text-sm text-gray-500 mt-2">
+                                                    {formatDate(complaint.createdAt)}
+                                                </p>
+                                                <p className="text-gray-700 mt-2">
+                                                    Phone Number: <span className="font-medium text-gray-900">{complaint.phoneNumber}</span>
+                                                </p>
+                                                <p className="text-gray-700 mb-3">
+                                                    <strong className="font-medium">Complaint:</strong> {complaint.complaint}
+                                                </p>
+                                                <p className="text-gray-700 mb-4">
+                                                    <strong className="font-medium">Address:</strong> {complaint.address}
+                                                </p>
+
+                                                <div className="flex  items-center justify-between mt-4 flex-wrap gap-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div>
+                                                            <span className="text-sm font-medium text-gray-700">Status: </span>
+                                                            <span className={`font-medium px-2 py-1 rounded text-white
                                                         ${complaint.status === 'Pending' ? 'bg-yellow-500' :
-                                                            complaint.status === 'In Progress' ? 'bg-blue-500' :
-                                                                complaint.status === 'Resolved' ? 'bg-green-500' :
-                                                                    'bg-gray-400'}`}>
-                                                        {complaint.status}
-                                                    </span>
+                                                                    complaint.status === 'In Progress' ? 'bg-blue-500' :
+                                                                        complaint.status === 'Resolved' ? 'bg-green-500' :
+                                                                            'bg-gray-400'}`}>
+                                                                {complaint.status}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                        <select
+                                                            value={complaint.status}
+                                                            onChange={(e) => handleStatusChange(complaint._id, e.target.value)}
+                                                            className="w-full sm:w-48 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                                                        >
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="In Progress">In Progress</option>
+                                                            <option value="Resolved">Resolved</option>
+                                                            <option value="Cancelled">Cancelled</option>
+                                                        </select>
                                                 </div>
-                                                <a href={`tel:${complaint.phoneNumber}`}>
-                                                    <button className="bg-[#020197] hover:bg-green-500 text-white font-bold py-1 px-2 rounded flex items-center gap-1 text-sm">
-                                                        <Phone className="h-4 w-4" />
-                                                        Call
-                                                    </button>
-                                                </a>
-                                                
+                                                    <div className='flex mt-2 justify-center'>
+                                                        <a href={`tel:${complaint.phoneNumber}`}>
+                                                            <button className="bg-[#020197] hover:bg-green-500 text-white font-bold py-1 px-2 rounded flex items-center gap-1 text-sm whitespace-nowrap">
+                                                                <Phone className="h-4 w-4" />
+                                                                Call
+                                                            </button>
+                                                        </a>
+                                                    </div>
                                             </div>
                                         </div>
                                     </div>
@@ -197,3 +212,4 @@ const ComplaintsTable = () => {
 };
 
 export default ComplaintsTable;
+

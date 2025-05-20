@@ -1,4 +1,3 @@
-// index.js
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -12,6 +11,8 @@ import IntitalRaise from "./components/InitailRaise";
 import App from "./App";
 import Aboutus from "./components/Aboutus";
 import Contact from "./components/Contact";
+import ComplaintStatusPage from "./components/ComplaintStatusPage";
+import PageNotFound from "./components/PageNotFound";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -28,6 +29,8 @@ root.render(
             <Route path="/raise" element={<IntitalRaise />} />
             <Route path="/about" element={<Aboutus />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/status" element={<ComplaintStatusPage />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </main>
         <Footer />
