@@ -108,7 +108,7 @@ For any questions, suggestions, or collaborations, feel free to reach out:
 
 * **Name:** K.V.N.Rajasekhar
 * **Email:** kanagalavnrajasekhar@gmail.com
-* **LinkedIn:** [Linkedin](https://www.linkedin.com/in/kvnrs23/)
-* **GitHub:** [GitHub](https://github.com/kvnrajasekhar)
+* **LinkedIn:** [https://www.linkedin.com/in/kvnrs23](https://www.linkedin.com/in/kvnrs23)
+* **GitHub:** [https://github.com/kvnrajasekhar](https://github.com/kvnrajasekhar)
 
 ---
