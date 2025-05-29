@@ -53,13 +53,11 @@ To get Quickfix up and running on your local machine, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YourGitHubUsername/quickfix-app.git](https://github.com/YourGitHubUsername/quickfix-app.git)
+    git clone [https://github.com/kvnrajasekhar/quickfix.git](https://github.com/kvnrajasekhar/quickfix.git)
     ```
-    (Replace `YourGitHubUsername/quickfix-app.git` with your actual repository URL)
-
 2.  **Navigate to the project directory:**
     ```bash
-    cd quickfix-app
+    cd quickfix
     ```
 
 3.  **Install dependencies:**
@@ -92,14 +90,13 @@ Once the application is running:
 
 1.  **Navigate through pages:** Use the navigation links (e.g., Home, Raise, About Us, Contact) to explore different sections.
 2.  **Change Language:** Look for a language switcher (typically in the header) to switch between English, Telugu, and Hindi.
-3.  **Raise a Service Request:** Go to the relevant section (e.g., "Initial Raise" or "Raise Service Request" page) to fill out and submit a request.
+3.  **Raise a Service Request:** Go to the section ("Raise Service Request" page) to fill out and submit a request.
 4.  **Contact Us:** Use the contact form to send an email, which will redirect you to your default email client.
 
 ---
 
 ## Future Enhancements
 
-* **Backend Integration:** Implement a robust backend (e.g., Node.js with Express and MongoDB) to handle service request storage, user authentication, and technician assignment.
 * **Service Request Tracking:** Allow users to view the status and history of their submitted service requests.
 * **Real-time Notifications:** Implement real-time updates for service request status changes.
 
@@ -109,13 +106,9 @@ Once the application is running:
 
 For any questions, suggestions, or collaborations, feel free to reach out:
 
-* **Your Name:** [Your Name Here]
-* **Email:** [Your Email Here]
-* **LinkedIn:** [Your LinkedIn Profile URL Here]
-* **GitHub:** [Your GitHub Profile URL Here]
+* **Your Name:** K.V.N.Rajasekhar
+* **Email:** kanagalavnrajasekhar@gmail.com
+* **LinkedIn:** [Linkedin](https://www.linkedin.com/in/kvnrs23/)
+* **GitHub:** [GitHub](https://github.com/kvnrajasekhar)
 
 ---
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
