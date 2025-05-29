@@ -106,7 +106,7 @@ Once the application is running:
 
 For any questions, suggestions, or collaborations, feel free to reach out:
 
-* **Your Name:** K.V.N.Rajasekhar
+* **Name:** K.V.N.Rajasekhar
 * **Email:** kanagalavnrajasekhar@gmail.com
 * **LinkedIn:** [Linkedin](https://www.linkedin.com/in/kvnrs23/)
 * **GitHub:** [GitHub](https://github.com/kvnrajasekhar)
