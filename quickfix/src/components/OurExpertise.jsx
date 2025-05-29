@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Typography, styled } from "@mui/material";
 import RaiseService from "./RaiseService";
 import { motion } from 'framer-motion';
+import { LanguageContext } from '../index';
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -29,7 +30,8 @@ const FullHeightContainer = styled(motion.div)(({ theme }) => ({
 }));
 
 
-function About() {
+function OurExpertise() {
+    const { t } = useContext(LanguageContext);
 
     return (
         <FullHeightContainer
@@ -38,24 +40,17 @@ function About() {
             transition={{ duration: 0.5 }}
         >
             <ContentWrapper>
-                <Typography id="about" variant="h4" component="h1" gutterBottom sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600 }}>
-                    About Us
+                <Typography id="our-expertise" variant="h4" component="h1" gutterBottom sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600 }}>
+                    {t('OurExpertise', 'expertise_heading')}
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
-                    With the benefit of guidance from a highly experienced electrician
-                    boasting over four decades in the field, Quickfix offers dependable
-                    electrical services. Our team of skilled, modern technicians is ready
-                    to assist you 24/7 throughout the city and, where possible, in
-                    surrounding areas.
+                    {t('OurExpertise', 'expertise_paragraph_1')} 
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
-                    For us at Quickfix, performing quality work is paramount, a principle we
-                    hold with sincerity. We approach every task with integrity and a genuine
-                    commitment to your needs.
+                    {t('OurExpertise', 'expertise_paragraph_2')} 
                 </Typography>
                 <Typography variant="body1" sx={{ lineHeight: 1.6 }}>
-                    Ensuring your peace of mind through reliable and honest service is our
-                    humble aim.
+                    {t('OurExpertise', 'expertise_paragraph_3')} 
                 </Typography>
             </ContentWrapper>
             <Box mt={6}>
@@ -65,4 +60,4 @@ function About() {
     );
 }
 
-export default About;
+export default OurExpertise;

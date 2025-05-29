@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
+import { LanguageContext} from '../index'; 
+
 
 const PatternedButton = styled(Button)(({ theme }) => ({
     display: 'block',
@@ -23,10 +25,15 @@ const PatternedButton = styled(Button)(({ theme }) => ({
 }));
 
 const RaiseServiceRequestButton = () => {
+      const { t, lang, setLang } = useContext(LanguageContext);
+      const handleLanguageChange = (event) => {
+        setLang(event.target.value);
+      };
+
     return (
         <Link to="/raise" style={{ textDecoration: 'none', width: '100%', display: 'block' }}>
             <PatternedButton fullWidth>
-                Raise a Service Request
+            {t('RaiseServiceRequestButton', 'button_text')}
             </PatternedButton>
         </Link>
     );

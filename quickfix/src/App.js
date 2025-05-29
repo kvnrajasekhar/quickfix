@@ -1,12 +1,12 @@
 import './App.css';
-import About from './components/About';
+import OurExpertise from './components/OurExpertise';
 import ElectricityLanding from './components/ElectricityLanding';
 
 function App() {
   return (
     <>  
       <ElectricityLanding />
-      <About />
+      <OurExpertise />
     </>
   );
 }

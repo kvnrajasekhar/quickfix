@@ -2,7 +2,7 @@
 
 /* Apply to the Navbar */
 .navbar {
-  background: transparent !important; /* Ensures it's transparent */
+  background:  rgb(243 244 246) !important; 
   border: none;
   padding: 10px 20px;
   font-family: 'Atlas Grotesk Web', sans-serif;

@@ -52,7 +52,7 @@ const ElectricityLanding = () => {
                 <img src={man} id="man" alt="Man" />
                 <img src={clouds1} id="clouds_1" alt="Clouds 1" />
                 <img src={clouds2} id="clouds_2" alt="Clouds 2" />
-                <img src={mountainLeftImg} id="mountain_left" alt="Mountain Left" /> {/* Corrected here */}
+                <img src={mountainLeftImg} id="mountain_left" alt="Mountain Left" /> 
                 <img src={mountainRight} id="mountain_right" alt="Mountain Right" />
             </div>
         </>

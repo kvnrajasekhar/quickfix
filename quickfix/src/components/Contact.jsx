@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { LanguageContext } from '../index';
 
 const Contact = () => {
-    // Animation variants
+    const { t } = useContext(LanguageContext);
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -29,7 +31,6 @@ const Contact = () => {
         message: '',
     });
 
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -40,7 +41,6 @@ const Contact = () => {
         window.open(mailtoLink, '_blank');
         setFormData({ subject: '', email: '', message: '' });
     };
-
 
     return (
         <motion.div
@@ -56,12 +56,10 @@ const Contact = () => {
                 {/* Contact Us Heading */}
                 <div className="text-center">
                     <h2 className="text-4xl sm:text-5xl font-bold text-blue-600 mb-4">
-                        Contact Us
+                        {t('Contact', 'contact_us_heading')}
                     </h2>
                     <p className="text-gray-600 text-lg sm:text-xl max-w-3xl mx-auto">
-                        We are here to assist you with your electrical needs.  Please
-                        reach out to us using the information below or by filling out the
-                        contact form.
+                        {t('Contact', 'contact_us_description_long')}
                     </p>
                 </div>
 
@@ -71,49 +69,49 @@ const Contact = () => {
                         {/* Contact Details */}
                         <div>
                             <h3 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
-                                Get in Touch
+                                {t('Contact', 'get_in_touch_heading')}
                             </h3>
                             <div className="space-y-4">
                                 <div className="flex items-center">
                                     <MapPin className="w-6 h-6 text-red-500 mr-4" />
                                     <p className="text-gray-700 text-lg">
-                                        Location: Guntur, Andhra Pradesh, India
+                                        {t('Contact', 'location_label')}: {t('Contact', 'location_address')}
                                     </p>
                                 </div>
                                 <div className="flex items-center">
                                     <Phone className="w-6 h-6 text-blue-500 mr-4" />
                                     <p className="text-gray-700 text-lg">
-                                        Phone: +91 7793932038
+                                        {t('Contact', 'phone_label')}: {t('Contact', 'phone_number')}
                                     </p>
                                 </div>
                                 <div className="flex items-center">
                                     <Mail className="w-6 h-6 text-yellow-500 mr-4" />
                                     <p className="text-gray-700 text-lg">
-                                        Email: info.quickfix@gmail.com
+                                        {t('Contact', 'email_label')}: info.quickfix@gmail.com
                                     </p>
                                 </div>
                                 <div className="flex items-center">
                                     <Clock className="w-6 h-6 text-green-500 mr-4" />
                                     <p className="text-gray-700 text-lg">
-                                        Hours: 24/7
+                                        {t('Contact', 'hours_label')}: {t('Contact', 'hours_value')}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Contact Form  */}
+                        {/* Contact Form */}
                         <div>
                             <h3 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
-                                Send us a Message
+                                {t('Contact', 'send_message_heading')}
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                Please fill out the form below and you will be redirected to your email client.
+                                {t('Contact', 'send_message_instruction')}
                             </p>
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <input
                                     type="text"
-                                    name="name"
-                                    placeholder="Your Subject"
+                                    name="subject"
+                                    placeholder={t('Contact', 'placeholder_subject')}
                                     value={formData.subject}
                                     onChange={handleChange}
                                     className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -122,7 +120,7 @@ const Contact = () => {
                                 <input
                                     type="email"
                                     name="email"
-                                    placeholder="Your Email"
+                                    placeholder={t('Contact', 'placeholder_email')}
                                     value={formData.email}
                                     onChange={handleChange}
                                     className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -130,7 +128,7 @@ const Contact = () => {
                                 />
                                 <textarea
                                     name="message"
-                                    placeholder="Your Message"
+                                    placeholder={t('Contact', 'placeholder_message')}
                                     rows={4}
                                     value={formData.message}
                                     onChange={handleChange}
@@ -140,12 +138,10 @@ const Contact = () => {
                                 <button
                                     type="submit"
                                     className="w-full bg-[#020197] hover:bg-green-400 text-white py-3 rounded-full hover:bg-blue-700 transition-colors"
-
                                 >
-                                    Send Message
+                                    {t('Contact', 'send_button_text')}
                                 </button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -153,7 +149,7 @@ const Contact = () => {
                 {/* Additional Contact Information */}
                 <div className="text-center">
                     <p className="text-gray-600 text-lg sm:text-xl">
-                        We look forward to hearing from you!
+                        {t('Contact', 'closing_message')}
                     </p>
                 </div>
             </motion.section>
